@@ -102,8 +102,8 @@ class lineMessage:
         return referenceMessage
 
     def getDataConfirm(self):
-        path = os.getcwd()+'\\LinepayAPP\\資料確認.json'
-        with open(path, 'r') as reader:
+        path = os.getcwd()+'/LinepayAPP/資料確認.json'
+        with open(path, 'r' ,encoding='big5') as reader:
             DataConfirm = json.loads(reader.read())
         return DataConfirm
     

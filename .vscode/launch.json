@@ -5,29 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python：Django test",
             "type": "python",
             "request": "launch",
-            "name": "Python : launch current file",
-            "program": "${file}"
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "test",
+                "LinepayAPP",
+            ],
+            "django": true
         },
         {
             "name": "Python：Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}\\manage.py",
+            "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
                 "--noreload"
-            ],
-            "django": true
-        },{
-            "name": "Python：Django Test",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}\\manage.py",
-            "args": [
-                "test",
-                "LinepayAPP",
             ],
             "django": true
         }
