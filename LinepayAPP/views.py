@@ -103,10 +103,16 @@ class lineMessage:
 
     def getDataConfirm(self):
         path = os.getcwd()+'/LinepayAPP/資料確認.json'
-        with open(path, 'r' ,encoding='big5') as reader:
+        with open(path, 'r' ,encoding='utf-8') as reader:
             DataConfirm = json.loads(reader.read())
         return DataConfirm
     
+    def clearReferenceJson(self,buyItemCol):
+        transforToStringBuyItemCol = json.dumps(buyItemCol)
+        rebackToJsonObjectBuyItemCol = json.loads(transforToStringBuyItemCol)
+        buyItemCol = rebackToJsonObjectBuyItemCol
+        return buyItemCol
+
     def orderInfoFlex(self,lineID,displayName,phone,address):
         DataConfirm = self.getDataConfirm()
         DataConfirm['body']['contents'][0]['text'] = '購物車'
@@ -123,30 +129,34 @@ class lineMessage:
         orderTotalElement = len(orders)
         contentTotalElement = len(content)
 
-        
-        transforToStringBuyItemCol = json.dumps(buyItemCol)
-        rebackToJsonObjectBuyItemCol = json.loads(transforToStringBuyItemCol)
-        buyItemCol = rebackToJsonObjectBuyItemCol
-
+        EditButton = ''''''
         content.append(splitLine)
         for i in range(orderTotalElement):
+            buyItemCol = self.clearReferenceJson(buyItemCol)
             content.append(buyItemCol)
+
             Price = str(orders[i].itemPrice)
             content[len(content)-1]['contents'][0]['text'] = orders[i].itemName
             content[len(content)-1]['contents'][1]['text'] = Price
             
             addOnNames = orders[i].addOnNameHistory.split(',')
             addOnPrices = orders[i].addOnPriceHistory.split(',')
-            # for j in range(len(addOnNames)):
-            #     content[j]['contents'][0] = addOnNames[j]
-            #     content[j]['contents'][1] = addOnPrices[j]
-
+            
+            addOnNames = addOnNames[1:]
+            addOnPrices = addOnPrices[1:]
+            for j in range(len(addOnNames)):
+                buyItemCol = self.clearReferenceJson(buyItemCol)
+                content.append(buyItemCol)
+                content[len(content)-1]['contents'][0]['text'] = '    ' + addOnNames[j]
+                content[len(content)-1]['contents'][1]['text'] = '    ' + addOnPrices[j]
+            content.append(splitLine)
+            
         message = FlexSendMessage(alt_text="購物車資訊", contents=DataConfirm)
         response = line_bot_api.push_message(self.to, message)
         return response , content
 
     def memberInfoFlex(self,displayName,phone,birthday):
-        DataConfirm = getDataConfirm()
+        DataConfirm = self.getDataConfirm()
         content = DataConfirm['body']['contents'][2]['contents']
 
         content[0]['contents'][1]['text'] = displayName
@@ -228,8 +238,14 @@ def callback(request):
             LineMessage.textMessage('請輸入送餐地址')
             MemberAction.updateSession('註冊-地址')
             return HttpResponse()
-        LineMessage.orderInfoFlex(lineID,Display_name,member.phone,member.address)
-       
+        elif member.phone =='':
+            LineMessage.textMessage('請輸入送餐電話')
+            MemberAction.updateSession('註冊-電話號碼')
+            return HttpResponse()
+        else:
+            LineMessage.orderInfoFlex(lineID,Display_name,member.phone,member.address)
+            MemberAction.updateSession('正常用戶')
+            return HttpResponse()
     if ClientMsg == "加料完畢":
         MemberAction.updateSession('正常用戶-詢問是否繼續訂餐')
 
@@ -262,9 +278,11 @@ def callback(request):
                 else:
                     LineMessage.orderInfoFlex(lineID,Display_name,member.phone,member.address)
         if case.status == '註冊-電話號碼':
-            LineMessage.datetimePicker()
-            MemberAction.updateSession('註冊-生日')
-
+            if member.birthDay == '':
+                LineMessage.datetimePicker()
+                MemberAction.updateSession('註冊-生日')
+            else:
+                return HttpResponse()
         if case.status == '註冊-地址':
             member.address = ClientMsg
             member.save()

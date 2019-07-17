@@ -1,5 +1,5 @@
-git add .
+:git add .
 @echo off
 set /p var=½Ð¿é¤JCommit:
-git commit -am %version%
+git commit -a --amend --no-edit %version%
 git push heroku master
