@@ -377,16 +377,16 @@ def callback(request):
         MemberAction.updateSession('正常用戶')
         response = JsonResponse({'orderId': member.orderId})
         return response
-    if ClientMsg == "使用貨到付款":
+    if ClientMsg == "使用到店取餐":
         orders = shoppingCart.objects.filter(
             member__lineID=lineID,cashOnDelivery = False ,isTaked=False, isPayed='False').order_by('updated_at')
         if orders == None:
             LineMessage = lineMessage(lineID)
-            LineMessage.textMessage('目前沒有訂單可以使用貨到付款')
+            LineMessage.textMessage('目前沒有訂單可以使用到店取餐')
             return JsonResponse({'response': 'OK' },safe=False)
 
         for order in orders:
-            #更新為貨到付款這個狀態
+            #更新為到店取餐這個狀態
             order.cashOnDelivery = True
             order.save()
         orderId = orders[0].linkOrderId
@@ -445,8 +445,13 @@ def callback(request):
 
     if ClientMsg == "修改訂單":
         orders = shoppingCart.objects.filter(
-            member__lineID=lineID, isPayed='False').order_by('updated_at')
+            member__lineID=lineID, isPayed='False',cashOnDelivery=False).order_by('updated_at')
         carouselItems = []
+
+        if len(orders)==0:
+            LineMessage.textMessage("購物車內尚無可修改之訂單")
+            return JsonResponse({'response': 'OK' },safe=False)
+
         i = 0
         for item in orders:
             MessageActions = []
@@ -781,7 +786,7 @@ def callback(request):
                 lastLinkOrderId = ""
                 orders = shoppingCart.objects.filter(member__lineID = lineID , isPayed = 'False').order_by('-updated_at')
 
-                #獲取最早的一筆訂單代碼，且不能是已經設定為貨到付款的訂單
+                #獲取最早的一筆訂單代碼，且不能是已經設定為到店取餐的訂單
                 lastLinkOrderId = shoppingCart.objects.filter(member__lineID = lineID , isPayed = 'False',cashOnDelivery = False).first().linkOrderId
            
                 #最接近目前時間的一筆訂單

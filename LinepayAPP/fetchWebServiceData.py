@@ -3,9 +3,10 @@ import json
 import requests
 class nahoo:
     def __init__(self):
-        requests.packages.urllib3.disable_warnings()
-        requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
-        self.wsdl = 'https://cloud.nahoopos.com/services/nahooWebservice?WSDL'
+        # requests.packages.urllib3.disable_warnings()
+        # requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
+        # self.wsdl = 'https://cloud.nahoopos.com/services/nahooWebservice?WSDL'
+        self.wsdl = 'http://60.248.91.143/services/nahooWebservice?WSDL'
         self.client = zeep.Client(wsdl=self.wsdl)
     
     def shopInfo(self,id):
