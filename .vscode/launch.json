@@ -5,15 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python：Django test",
+            "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
-            "args": [
-                "test",
-                "LinepayAPP",
-            ],
-            "django": true
+            "program": "${file}",
+            "console": "integratedTerminal"
         },
         {
             "name": "Python：Django",

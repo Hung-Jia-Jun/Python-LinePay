@@ -1,0 +1,206 @@
+{
+  "type": "bubble",
+  "styles": {
+    "footer": {
+      "separator": true
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "資料確認",
+        "weight": "bold",
+        "color": "#1DB446",
+        "size": "xxl",
+        "margin": "md"
+      },
+      {
+        "type": "separator",
+        "margin": "xxl"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "xxl",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "姓名",
+                "size": "sm",
+                "color": "#555555",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "Jason",
+                "size": "sm",
+                "color": "#111111",
+                "align": "end"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "電話",
+                "size": "sm",
+                "color": "#555555",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "0918123123",
+                "size": "sm",
+                "color": "#111111",
+                "align": "end"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "生日",
+                "size": "sm",
+                "color": "#555555",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "85/01/01",
+                "size": "sm",
+                "color": "#111111",
+                "align": "end"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "margin": "xxl"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "spacer",
+        "size": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "修改取餐人",
+          "text": "修改取餐人"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "修改電話",
+          "text": "修改電話"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "修改地址",
+          "text": "修改地址"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "修改訂單",
+          "text": "修改訂單"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "使用邀請碼",
+          "text": "使用邀請碼"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "結帳",
+          "text": "結帳"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#905c44",
+        "action": {
+          "type": "message",
+          "label": "要貨到付款請點我",
+          "text": "使用貨到付款"
+        }
+      },
+      {
+        "type": "separator",
+        "margin": "sm"
+      }
+    ]
+  }
+}
