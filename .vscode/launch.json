@@ -5,17 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        },
-        {
             "name": "Python：Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
+            "program": "${workspaceFolder}\\manage.py",
             "args": [
                 "runserver",
                 "--noreload"

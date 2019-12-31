@@ -477,7 +477,7 @@ def callback(request):
     if "刪除" in ClientMsg:
         requestDelName = ClientMsg.replace("刪除","")
         itemIndex , itemName = requestDelName.split(".")
-        delTargetOrders = shoppingCart.objects.filter(member__lineID=lineID, isPayed='False').order_by('updated_at')
+        delTargetOrders = shoppingCart.objects.filter(member__lineID=lineID, isPayed='False',cashOnDelivery=False).order_by('updated_at')
         delTargetOrders[int(itemIndex)-1].delete()
 
         LineMessage.orderInfoFlex(lineID,member.displayName,member.phone,member.address)
