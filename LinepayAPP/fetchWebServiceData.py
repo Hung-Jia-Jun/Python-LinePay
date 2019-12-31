@@ -1,12 +1,15 @@
 import zeep
 import json
 import requests
+import configparser
 class nahoo:
     def __init__(self):
-        # requests.packages.urllib3.disable_warnings()
-        # requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
-        # self.wsdl = 'https://cloud.nahoopos.com/services/nahooWebservice?WSDL'
-        self.wsdl = 'http://60.248.91.143/services/nahooWebservice?WSDL'
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        shopURL = config['Shop']['shopURL']
+        requests.packages.urllib3.disable_warnings()
+        requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
+        self.wsdl = shopURL
         self.client = zeep.Client(wsdl=self.wsdl)
     
     def shopInfo(self,id):
