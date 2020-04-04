@@ -4,6 +4,7 @@ from django.http import HttpResponse,JsonResponse
 from linebot import LineBotApi
 from linebot.exceptions import *
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
 from linebot import *
 import pdb
 import uuid
@@ -23,6 +24,8 @@ import random
 
 config = configparser.ConfigParser()
 config.read('config.ini')
+# config.read("/Users/Jason/Scripts/LinePay_20200305/LinePay/pos-bot/config.ini")
+
 channelAccessToken = config['Shop']['channelAccessToken']
 channelSecret = config['Shop']['channelSecret'] 
 
@@ -247,8 +250,10 @@ class lineMessage:
             content[len(content)-1]['contents'][0]['text'] = '優惠折扣'
             content[len(content)-1]['contents'][1]['text'] = str(salePrice * -1)
 
-        getPos = random.randint(5, 32)
-        linkOrderId = uuid.uuid1().hex[getPos-4:getPos]
+        now = datetime.now()
+        
+        linkOrderId = now.strftime("%Y%m%d%H%M%S")
+
         for order in orders:
             if order.linkOrderId == "":
                 order.linkOrderId = linkOrderId
@@ -371,7 +376,7 @@ def callback(request):
         productName = '結帳'    
         totalPrice = order.totalPrice
         amount = str(order.totalPrice)
-        _linePay.reserveOrder(productName, amount)
+        _linePay.reserveOrder(productName, amount,order.productImageUrl)
         LineMessage.textMessage("訂單成功，請點連結線上付款，或點選到店取貨付款按鈕。")
         LineMessage.textMessage(_linePay.paymentURL)
         MemberAction.updateSession('正常用戶')
@@ -506,6 +511,8 @@ def callback(request):
         if case.status == '正常用戶':
             config = configparser.ConfigParser()
             config.read('config.ini')
+            # config.read("/Users/Jason/Scripts/LinePay_20200305/LinePay/pos-bot/config.ini")
+
             hq = config['Shop']['hqID']
 
             shopList = []
@@ -1097,11 +1104,9 @@ def queryAllOrder(request):
             del item['linkOrderId']
             item['subPrice'] = subPrice
             item['subTotal'] = subTotal
-        try:
-            Member = member.objects.filter(orderId__contains = linkOrderId)[0]
-        except:
-            continue
-        classItem.append('totalPrice = ' + itemPrice)
+
+        Member = member.objects.filter(id=item['member_id']).first()
+        classItem.append('totalPrice = ' + str(itemPrice))
         classItem.append('OrderId = ' + linkOrderId)
         classItem.append('Member displayName = ' + Member.displayName)
         classItem.append('Member address = ' + Member.address)

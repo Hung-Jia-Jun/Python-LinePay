@@ -5,7 +5,10 @@ import configparser
 class nahoo:
     def __init__(self):
         config = configparser.ConfigParser()
+
         config.read('config.ini')
+        # config.read("/Users/Jason/Scripts/LinePay_20200305/LinePay/pos-bot/config.ini")
+
         shopURL = config['Shop']['shopURL']
         requests.packages.urllib3.disable_warnings()
         requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
