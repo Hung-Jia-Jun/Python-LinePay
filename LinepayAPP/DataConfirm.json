@@ -186,20 +186,6 @@
       {
         "type": "separator",
         "margin": "sm"
-      },
-      {
-        "type": "button",
-        "style": "primary",
-        "color": "#905c44",
-        "action": {
-          "type": "message",
-          "label": "要到店取餐請點我",
-          "text": "使用到店取餐"
-        }
-      },
-      {
-        "type": "separator",
-        "margin": "sm"
       }
     ]
   }

@@ -367,7 +367,9 @@ def callback(request):
             return JsonResponse({'response': 'OK' },safe=False)
 
         _linePay = linePay()
-        _linePay.confirmUrl = 'https://www.nahoo.com.tw:8000'
+        # _linePay.confirmUrl = 'https://www.nahoo.com.tw:8000'
+        # _linePay.confirmUrl = 'https://www.nahoo.com.tw/Line.php'
+
 
         member.orderId +=  order.linkOrderId + ','
         _linePay.orderId =  order.linkOrderId
@@ -376,7 +378,7 @@ def callback(request):
         productName = '結帳'    
         totalPrice = order.totalPrice
         amount = str(order.totalPrice)
-        _linePay.reserveOrder(productName, amount,order.productImageUrl)
+        _linePay.reserveOrder(productName, amount,order.productImage)
         LineMessage.textMessage("訂單成功，請點連結線上付款，或點選到店取貨付款按鈕。")
         LineMessage.textMessage(_linePay.paymentURL)
         MemberAction.updateSession('正常用戶')
@@ -987,6 +989,7 @@ def callback(request):
 #付款狀態確認
 def confirm(request):
     orderId = request.GET["orderId"]
+    transactionId = request.GET["transactionId"]
 
     #去訂單資料庫查看這筆訂單付款的會員是誰
     memberInfo = shoppingCart.objects.filter(
@@ -998,6 +1001,10 @@ def confirm(request):
 
     shoppingOrders = shoppingCart.objects.filter(member__lineID=memberInfo.lineID, isPayed = 'False')
     
+    _linePay = linePay()
+    response = _linePay.confirmPayment(transactionId, shoppingOrders[0].totalPrice)
+    print(response.text)
+
     #如果用戶重複刷新頁面就會出現這個訊息
     if len(shoppingOrders) == 0 or shoppingOrders == None:
         response = JsonResponse({'response': 'Payment is successful, please close this page'}, safe=False, json_dumps_params={
@@ -1055,7 +1062,7 @@ def queryOrderByCode(request):
     return response
 
 def queryAllOrder(request):
-    orders = shoppingCart.objects.filter(isTaked = False).values().order_by('updated_at')
+    orders = shoppingCart.objects.filter(isPayed = 'True', isTaked = False).values().order_by('updated_at')
     response = JsonResponse({'data': list(orders) },safe=False)
     
     #解析DB輸出的所有訂單
