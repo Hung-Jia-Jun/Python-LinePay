@@ -1,4 +1,4 @@
-Django==1.8.6
+Django==1.11.29
 django-apscheduler==0.3.0
 pyOpenSSL==18.0.0
 django-sslserver==0.20
