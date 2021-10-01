@@ -260,14 +260,14 @@ class testToRequest:
         self.userId = userId
     def message(self,messageText):
         self.body =""" {"events":[{"type":"message",
-                            "replyToken":"060986060033471692902ca6c12acfb0",
+                            "replyToken":"0000000000000000000000000000000000",
                             "source":{
                                 "userId":"""+'"'+self.userId+'"'+""",
                                 "type":"user"},
-                                "timestamp":1566990776083,
+                                "timestamp":0000000000000000000000000000000000,
                                 "message":{
                                     "type":"text",
-                                    "id":"10471093732740",
+                                    "id":"0000000000000000000000000000000000",
                                     "text":"
                                     """
         self.body += messageText + """
@@ -279,27 +279,27 @@ class testToRequest:
 
     def postback(self,postbackText):
         self.body ="""{"events":[{"type":"postback",
-                        "replyToken":"1c85ec1e5b534ee08cd2d513cba15f52",
-                        "source":{"userId":"Ue2a91beba135696d6b7cafad52e51587",
+                        "replyToken":"0000000000000000000000000000000000",
+                        "source":{"userId":"0000000000000000000000000000000000",
                         "type":"user"},
-                        "timestamp":1567157104667,
+                        "timestamp":0000000000000000000000000000000000,
                         "postback":{"data":"
                     """
         self.body += postbackText + """
-                       "}}],"destination":"U7716e8328744f0d3848235fcb94af2a7"}"""
+                       "}}],"destination":"0000000000000000000000000000000000"}"""
         self.body = self.body.replace("\n","").replace(" ","")
         return self
 class TestOrderProcess(TestCase):
     @classmethod
     def setUpTestData(self):
-        self.lineID = 'Ue2a91beba135696d6b7cafad52e51587'
-        self.fakeLineID = 'Ue2a91beba135696d6b7cafa_fake'
+        self.lineID = '0000000000000000000000000000000000'
+        self.fakeLineID = '0000000000000000000000000000000000'
         self.phone = '0918123123'
         self.birth = '2019-01-01'
         self.status = '註冊-電話號碼'
-        self.display_name = '洪嘉駿 Jason'
+        self.display_name = ' '
         self.fakeDisplay_name = self.display_name+"_Scend"
-        self.address = '台北市北投區'
+        self.address = ' '
         self.memberAction = test_view.memberAction(self.lineID,displayName = self.display_name)
         Member = member(lineID=self.lineID,phone = self.phone,displayName = self.display_name)
         Member.save()
